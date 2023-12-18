@@ -65,6 +65,7 @@ const getHotels = async (cityCode) => {
 
       console.log(hotelJson);
 
+
       return hotelJson.data.map(({ hotel }) => hotel);   
 
     }
@@ -78,6 +79,21 @@ const getHotels = async (cityCode) => {
 const getHotelOffers = async (hotelIds) => {
   try {
     const response = await axios.get(`/api/hoteloffers?hotelIds=${hotelIds}`);
+    const json = response.data;
+    console.log(json);
+    if (json && json.data) {
+      return json.data[0].offers;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+  return [];
+};
+
+
+const getHotelRatings = async (hotelIds) => {
+  try {
+    const response = await axios.get(`/api/hotelratings?hotelIds=${hotelIds}`);
     const json = response.data;
     console.log(json);
     if (json && json.data) {
@@ -128,6 +144,7 @@ const confirmOffer = async (offerId) => {
   }
   return null;
 };
+
 const makeBooking = async (offerId) => {
   const testData = {
     guests: [
@@ -171,4 +188,4 @@ const makeBooking = async (offerId) => {
   return null;
 };
 
-export { search, getHotels, getOffers, confirmOffer, makeBooking };
+export { search, getHotels, getOffers, confirmOffer, makeBooking,  getHotelRatings};
